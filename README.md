@@ -8,6 +8,14 @@ ssh -i d:\vault\python\need-more-gold\id_rsa.txt desprit@35.198.147.242
 
 ## Development
 
+1. Run Redis Docker service
+
+```sh
+docker run -p 6379:6379 -v /var/lib/redis/6379/need-more-gold/:/data redis:alpine redis-server --requirepass r6121343809cbab19 --appendonly yes
+# Create admin user
+hset users admin '{"role": "admin", "password": "$2b$10$OHBD5yu8z7aDj8Ntg8FB2.hx4VdcwLBIx3MGcEY.7UMAUTHom7BLO"}'
+```
+
 ## Production
 
 1. Install latest Node and NPM

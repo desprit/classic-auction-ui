@@ -1,0 +1,33 @@
+<div class="auth" fxLayoutAlign="center center">
+  <mat-card>
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input
+        name="username"
+        matInput
+        [formControl]="usernameFormControl"
+        (keyup.enter)="onLoginClick()"
+      />
+      <mat-icon matSuffix>account_circle</mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        name="password"
+        type="password"
+        matInput
+        [formControl]="passwordFormControl"
+        (keyup.enter)="onLoginClick()"
+      />
+      <mat-icon matSuffix>vpn_key</mat-icon>
+    </mat-form-field>
+    <button
+      [disabled]="!valid"
+      (click)="onLoginClick()"
+      mat-flat-button
+      color="primary"
+    >
+      Login
+    </button>
+  </mat-card>
+</div>

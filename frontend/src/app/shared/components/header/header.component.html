@@ -1,0 +1,18 @@
+<mat-toolbar color="warn">
+  <span (click)="onLogoClick()">TTS frontend</span>
+  <span class="spacer"></span>
+  <span>
+    <mat-menu #appMenu="matMenu">
+      <button
+        *ngIf="authService.loggedIn"
+        (click)="onLogoutClick()"
+        mat-menu-item
+      >
+        Logout
+      </button>
+    </mat-menu>
+    <button mat-icon-button [matMenuTriggerFor]="appMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </span>
+</mat-toolbar>

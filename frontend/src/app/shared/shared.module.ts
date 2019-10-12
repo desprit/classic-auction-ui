@@ -6,11 +6,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppMaterialModule } from 'app/core/app-material.module';
 import { SharedService } from 'app/shared/services/shared.service';
 import { ApiService } from './services/api.service';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   providers: [SharedService, ApiService],
-  declarations: [],
+  declarations: [HeaderComponent, FooterComponent],
   imports: [
+    CommonModule,
     FlexLayoutModule,
     AppMaterialModule,
     FormsModule,
@@ -21,7 +24,9 @@ import { ApiService } from './services/api.service';
     FlexLayoutModule,
     AppMaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HeaderComponent,
+    FooterComponent
   ]
 })
 export class SharedModule {}
