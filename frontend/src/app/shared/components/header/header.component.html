@@ -1,7 +1,25 @@
 <mat-toolbar color="warn">
-  <span (click)="onLogoClick()">TTS frontend</span>
+  <span class="logo" (click)="onLogoClick()">NeedMoreGold</span>
   <span class="spacer"></span>
-  <span>
+  <span fxLayoutAlign="center center">
+    <div *ngIf="authService.loggedIn" class="links" fxLayout="row">
+      <a
+        (click)="onLinkClick('database')"
+        routerLink="/database"
+        fxLayoutAlign="center center"
+      >
+        <mat-icon>list</mat-icon>
+        <span>Database</span>
+      </a>
+      <a
+        (click)="onLinkClick('upload')"
+        routerLink="/upload"
+        fxLayoutAlign="center center"
+      >
+        <mat-icon>cloud_upload</mat-icon>
+        <span>Upload</span>
+      </a>
+    </div>
     <mat-menu #appMenu="matMenu">
       <button
         *ngIf="authService.loggedIn"

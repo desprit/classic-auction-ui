@@ -9,6 +9,10 @@
 # Only exists if Bazel was run
 /bazel-out
 
+# Python files
+venv
+*.pyc
+
 # dependencies
 /node_modules
 

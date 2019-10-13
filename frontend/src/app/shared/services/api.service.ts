@@ -38,4 +38,17 @@ export class ApiService {
       })
     );
   }
+
+  public search(query: string): Observable<ApiResponse> {
+    const payload = { query };
+    return this.httpClient.post('search', payload).pipe(
+      catchError(e => {
+        console.error(e);
+        return of({ status: 'error' });
+      }),
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
 }

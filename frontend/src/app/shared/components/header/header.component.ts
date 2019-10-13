@@ -18,10 +18,10 @@ export class HeaderComponent implements OnInit {
   }
 
   public onLogoClick() {
-    if (this.authService.role === 'admin') {
-      this.router.navigate(['users']);
-    } else {
-      this.router.navigate(['home']);
-    }
+    this.router.navigate(['database']);
+  }
+
+  public onLinkClick(pathName: string) {
+    this.router.navigate([pathName]);
   }
 }

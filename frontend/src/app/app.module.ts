@@ -12,11 +12,13 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { AuthModule } from './modules/auth/auth.module';
 import { UploadModule } from './modules/upload/upload.module';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { DatabaseModule } from './modules/database/database.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     UploadModule,
+    DatabaseModule,
     AuthModule,
     BrowserModule,
     AppRoutingModule,
