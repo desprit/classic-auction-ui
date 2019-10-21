@@ -3,7 +3,13 @@ Project settings.
 """
 import os
 import logging
+from pathlib import Path
 from logging.handlers import RotatingFileHandler
+
+from dotenv import load_dotenv
+
+env_path = Path('../shared/production.env')
+load_dotenv(dotenv_path=env_path)
 
 DEBUG = os.environ.get("DEBUG") in ["True", "1", 1, True]
 
