@@ -1,9 +1,3 @@
-# Connect to the server
-
-```sh
-ssh -i d:\vault\python\need-more-gold\id_rsa.txt desprit@35.198.147.242
-```
-
 # Installation
 
 ## Development
@@ -36,6 +30,8 @@ find /data/need-more-gold/items -type f -exec sudo chmod 0664 {} +
 ## Production
 
 1. Install latest Node and NPM
+2. [Install Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+3.
 
 ### Frontend
 
