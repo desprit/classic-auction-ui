@@ -18,8 +18,8 @@ export class HeaderComponent implements OnInit {
     this.items = [
       {
         label: 'Logout',
-        command: this.onLogoutClick,
-        disabled: this.authService.loggedIn
+        command: (e: Event) => this.onLogoutClick(),
+        disabled: !this.authService.loggedIn
       }
     ];
   }
