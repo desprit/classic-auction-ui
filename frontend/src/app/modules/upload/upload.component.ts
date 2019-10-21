@@ -3,6 +3,7 @@ import { FileUploader } from 'ng2-file-upload';
 
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
+import { environment } from 'app/../environments/environment';
 
 @Component({
   selector: 'app-upload',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./upload.component.styl']
 })
 export class UploadComponent {
-  public URL = 'http://localhost:3031/v1/upload';
+  public URL = environment.uploadUrl;
   public uploader: FileUploader;
   public hasBaseDropZoneOver: boolean = false;
   public showProgress: boolean = false;

@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  uploadUrl: 'http://localhost:3031/v1/upload'
 };
 
 /*
