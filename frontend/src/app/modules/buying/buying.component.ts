@@ -78,7 +78,7 @@ export class BuyingComponent implements OnInit, OnDestroy {
     this.searchPage(this.currentQuery, event.page);
   }
 
-  public onOnlyBuyoutsChange() {
+  public onOnlyBuyoutsChange(event) {
     console.log('123');
   }
 
