@@ -57,7 +57,7 @@ export class DatabaseComponent implements OnInit, OnDestroy {
     this.searchPage(event.page, this.showOnlyLatestScan);
   }
 
-  public onLatestScanChange() {
+  public onLatestScanChange(event) {
     this.searchPage(this.currentPage, this.showOnlyLatestScan);
   }
 
