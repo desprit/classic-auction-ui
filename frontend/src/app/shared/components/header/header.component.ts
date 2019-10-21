@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from 'app/modules/auth/auth.service';
 import { Router } from '@angular/router';
+import { MenuItem } from 'primeng/components/common/menuitem';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,17 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
   constructor(public authService: AuthService, private router: Router) {}
 
-  ngOnInit() {}
+  public items: MenuItem[];
+
+  ngOnInit() {
+    this.items = [
+      {
+        label: 'Logout',
+        command: this.onLogoutClick,
+        disabled: this.authService.loggedIn
+      }
+    ];
+  }
 
   public onLogoutClick() {
     this.authService.logout();

@@ -4,7 +4,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthController } from './auth/auth.controller';
 import { UploadController } from './upload/upload.controller';
-import { SearchController } from './search/search.controller';
+import { ItemsController } from './items/items.controller';
+import { UploadService } from './upload/upload.service';
+import { ItemsService } from './items/items.service';
 
 @Module({
   imports: [],
@@ -12,8 +14,8 @@ import { SearchController } from './search/search.controller';
     AppController,
     AuthController,
     UploadController,
-    SearchController,
+    ItemsController,
   ],
-  providers: [AppService],
+  providers: [AppService, UploadService, ItemsService],
 })
 export class AppModule {}

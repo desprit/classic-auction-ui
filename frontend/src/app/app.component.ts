@@ -8,10 +8,9 @@ import { Component } from '@angular/core';
       <div class="main">
         <router-outlet></router-outlet>
       </div>
-      <app-footer fxFlexOffset="auto"></app-footer>
     </div>
   `,
-  styles: ['.main { min-height: calc(100vh - 128px); }']
+  styles: ['.main { min-height: calc(100vh - 64px); }']
 })
 export class AppComponent {
   title = 'need-more-gold';

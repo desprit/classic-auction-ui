@@ -1,7 +1,14 @@
 <div class="search" fxLayoutAlign="center center">
-  <mat-form-field appearance="outline">
-    <mat-label>Item name</mat-label>
-    <input matInput #searchInput />
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
+  <div class="ui-inputgroup">
+    <span class="ui-inputgroup-addon"
+      ><i class="pi pi-search" style="line-height: 1.25;"></i
+    ></span>
+    <input
+      disabled
+      #searchInput
+      type="text"
+      pInputText
+      placeholder="Item name"
+    />
+  </div>
 </div>

@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
+
 import { ApiService } from 'app/shared/services/api.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DatabaseService {
+export class BuyingService {
   constructor(private apiService: ApiService) {}
 
-  public getItems(page: number, onlyLatest: boolean) {
-    return this.apiService.getItems(page, onlyLatest);
+  public getBuyingList(query: string, page: number) {
+    return this.apiService.getBuyingList(query, page);
   }
 }

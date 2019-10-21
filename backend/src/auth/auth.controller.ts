@@ -4,16 +4,14 @@ import * as bcrypt from 'bcrypt';
 import {
   LoginRequestPayload,
   LoginResponse,
-} from '../../../shared/models/auth.model';
+} from '../shared/models/auth.model';
 import { tedis } from '../database/index';
 
 @Controller('auth')
 export class AuthController {
   @Post('login')
   async login(@Body() payload: LoginRequestPayload): Promise<LoginResponse> {
-    console.log(payload);
     const existingUser = await tedis.hget('users', payload.username);
-    console.log(existingUser);
     if (!existingUser) {
       return { success: false, message: "User doesn't exist" };
     }

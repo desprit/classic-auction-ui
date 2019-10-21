@@ -6,17 +6,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import { AppMaterialModule } from './core/app-material.module';
 import { AuthService } from './modules/auth/auth.service';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { AuthModule } from './modules/auth/auth.module';
 import { UploadModule } from './modules/upload/upload.module';
-import { FooterComponent } from './shared/components/footer/footer.component';
 import { DatabaseModule } from './modules/database/database.module';
+import { SellingModule } from './modules/selling/selling.module';
+import { BuyingComponent } from './modules/buying/buying.component';
+import { AppPrimengModule } from './core/app-primeng.module';
+import { BuyingModule } from './modules/buying/buying.module';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, BuyingComponent],
   imports: [
+    BuyingModule,
+    SellingModule,
     UploadModule,
     DatabaseModule,
     AuthModule,
@@ -24,10 +28,10 @@ import { DatabaseModule } from './modules/database/database.module';
     AppRoutingModule,
     CoreModule,
     SharedModule,
-    AppMaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AppPrimengModule
   ],
   providers: [AuthService],
-  bootstrap: [AppComponent, HeaderComponent, FooterComponent]
+  bootstrap: [AppComponent, HeaderComponent]
 })
 export class AppModule {}

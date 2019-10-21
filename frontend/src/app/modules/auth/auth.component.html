@@ -1,33 +1,45 @@
 <div class="auth" fxLayoutAlign="center center">
-  <mat-card>
-    <mat-form-field appearance="outline">
-      <mat-label>Username</mat-label>
-      <input
-        name="username"
-        matInput
-        [formControl]="usernameFormControl"
-        (keyup.enter)="onLoginClick()"
-      />
-      <mat-icon matSuffix>account_circle</mat-icon>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
-      <input
-        name="password"
-        type="password"
-        matInput
-        [formControl]="passwordFormControl"
-        (keyup.enter)="onLoginClick()"
-      />
-      <mat-icon matSuffix>vpn_key</mat-icon>
-    </mat-form-field>
-    <button
-      [disabled]="!valid"
-      (click)="onLoginClick()"
-      mat-flat-button
-      color="primary"
-    >
-      Login
-    </button>
-  </mat-card>
+  <p-card class="ui-g-4">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"
+            ><i class="pi pi-user" style="line-height: 1.25;"></i
+          ></span>
+          <input
+            (keyup.enter)="onLoginClick()"
+            name="username"
+            type="text"
+            pInputText
+            placeholder="Username"
+            [formControl]="usernameFormControl"
+          />
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon">
+            <i class="pi pi-key" style="line-height: 1.25;"></i>
+          </span>
+          <input
+            (keyup.enter)="onLoginClick()"
+            name="password"
+            type="password"
+            pInputText
+            placeholder="Password"
+            [formControl]="passwordFormControl"
+          />
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <p-button
+          [disabled]="!valid"
+          (click)="onLoginClick()"
+          label="Login"
+        ></p-button>
+      </div>
+    </div>
+  </p-card>
 </div>

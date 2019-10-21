@@ -1,20 +1,19 @@
-.mat-toolbar
-  .logo
-    cursor pointer
-  span
-    &:first-child
-      margin-left 8px
-  .links
-    a
-      color #ffcbcb
-      font-weight 300
-      margin-right 32px
-      &:hover
-        color white
-        cursor pointer
-        span
-          border-bottom 1px solid white
-      .mat-icon
-        margin-right 8px
+>>>.ui-toolbar
+  height 64px
+  display flex
+  align-items center
+  justify-content space-between
+  border-right 0 !important
+  border-left 0 !important
+  border-top 0 !important
+  border-radius 0 !important
+  .ui-toolbar-group-left, .ui-toolbar-group-right
+    flex 1
+.logo
+  cursor pointer
+.links
+  a
+    margin-right 32px
+    &:hover
       span
-        border-bottom 1px solid #ffcbcb
+        text-decoration underline

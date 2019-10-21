@@ -3,11 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 
-import { ApiResponse } from 'app/../../../shared/models/api.model';
+import { ApiResponse } from 'app/../../../backend/src/shared/models/api.model';
 import {
   LoginRequestPayload,
   LoginResponse
-} from 'app/../../../shared/models/auth.model';
+} from 'app/../../../backend/src/shared/models/auth.model';
+import {
+  WowAHItem,
+  SearchResponse
+} from '../../../../../backend/src/shared/models/item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +52,50 @@ export class ApiService {
       }),
       map((response: any) => {
         return response;
+      })
+    );
+  }
+
+  public getItems(
+    page: number,
+    onlyLatest: boolean
+  ): Observable<{ items: WowAHItem[]; totalItems: number }> {
+    return this.httpClient
+      .get(`items?page=${page}&onlyLatest=${onlyLatest}`)
+      .pipe(
+        catchError(e => {
+          console.error(e);
+          return of({ items: [], totalItems: 0 });
+        }),
+        map((response: any) => {
+          return response.data;
+        })
+      );
+  }
+
+  public getUpdateTime(): Observable<string> {
+    return this.httpClient.get('items/updated-time').pipe(
+      catchError(e => {
+        console.error(e);
+        return of(null);
+      }),
+      map((response: any) => {
+        return response.data;
+      })
+    );
+  }
+
+  public getBuyingList(
+    query: string,
+    page: number
+  ): Observable<{ items: WowAHItem[]; totalItems: number }> {
+    return this.httpClient.get(`items/buying?page=${page}&query=${query}`).pipe(
+      catchError(e => {
+        console.error(e);
+        return of({ items: [], totalItems: 0 });
+      }),
+      map((response: any) => {
+        return response.data;
       })
     );
   }

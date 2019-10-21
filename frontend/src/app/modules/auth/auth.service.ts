@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { LoginRequestPayload } from '../../../../../shared/models/auth.model';
+import { LoginRequestPayload } from '../../../../../backend/src/shared/models/auth.model';
 import { ApiService } from 'app/shared/services/api.service';
 
 @Injectable({

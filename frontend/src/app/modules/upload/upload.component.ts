@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
 
 import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload',
@@ -16,9 +17,9 @@ export class UploadComponent {
   public canDropFiles: string[];
   public wrongFile: boolean = false;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
     // Only admins can upload Auctionator database
-    if (authService.role == 'admin') {
+    if (this.authService.role == 'admin') {
       this.canDropFiles = ['Auctionator', 'BagBrother'];
     } else {
       this.canDropFiles = ['BagBrother'];
@@ -39,8 +40,14 @@ export class UploadComponent {
         fileItem.withCredentials = false;
       }
     };
-    this.uploader.onCompleteItem = () => {
+    this.uploader.onCompleteItem = fileItem => {
       this.showProgress = false;
+      const fileName = fileItem.file.name;
+      if (fileName.includes('Auctionator')) {
+        this.router.navigate(['buying']);
+      } else {
+        this.router.navigate(['selling']);
+      }
     };
   }
 

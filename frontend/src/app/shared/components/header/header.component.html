@@ -1,36 +1,36 @@
-<mat-toolbar color="warn">
-  <span class="logo" (click)="onLogoClick()">NeedMoreGold</span>
-  <span class="spacer"></span>
-  <span fxLayoutAlign="center center">
+<p-toolbar>
+  <div class="ui-toolbar-group-left">
+    <span class="logo" (click)="onLogoClick()">NeedMoreGold v0.2</span>
+  </div>
+  <div class="ui-toolbar-group-right" fxLayoutAlign="flex-end center">
     <div *ngIf="authService.loggedIn" class="links" fxLayout="row">
-      <a
-        (click)="onLinkClick('database')"
-        routerLink="/database"
-        fxLayoutAlign="center center"
-      >
-        <mat-icon>list</mat-icon>
+      <a routerLink="/database" fxLayoutAlign="center center">
+        <i class="pi pi-list" style="line-height: 1.25;"></i>
         <span>Database</span>
       </a>
-      <a
-        (click)="onLinkClick('upload')"
-        routerLink="/upload"
-        fxLayoutAlign="center center"
-      >
-        <mat-icon>cloud_upload</mat-icon>
+      <a routerLink="/buying" fxLayoutAlign="center center">
+        <i class="pi pi-shopping-cart" style="line-height: 1.25;"></i>
+        <span>Buying</span>
+      </a>
+      <a routerLink="/selling" fxLayoutAlign="center center">
+        <i class="pi pi-money-bill" style="line-height: 1.25;"></i>
+        <span>Selling</span>
+      </a>
+      <a routerLink="/upload" fxLayoutAlign="center center">
+        <i class="pi pi-cloud-upload" style="line-height: 1.25;"></i>
         <span>Upload</span>
       </a>
-    </div>
-    <mat-menu #appMenu="matMenu">
+      <a routerLink="/howto" fxLayoutAlign="center center">
+        <i class="pi pi-info" style="line-height: 1.25;"></i>
+        <span>How to</span>
+      </a>
+      <p-menu #menu [popup]="true" [model]="items"></p-menu>
       <button
-        *ngIf="authService.loggedIn"
-        (click)="onLogoutClick()"
-        mat-menu-item
-      >
-        Logout
-      </button>
-    </mat-menu>
-    <button mat-icon-button [matMenuTriggerFor]="appMenu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-  </span>
-</mat-toolbar>
+        type="button"
+        pButton
+        icon="pi pi-bars"
+        (click)="menu.toggle($event)"
+      ></button>
+    </div>
+  </div>
+</p-toolbar>

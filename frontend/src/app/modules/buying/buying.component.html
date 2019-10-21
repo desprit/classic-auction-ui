@@ -1,13 +1,21 @@
-<div class="database">
+<div class="buying">
   <div class="table-header" fxLayoutAlign="space-between center">
     <span class="updated-at">{{ updatedAt | date: 'medium' }}</span>
     <p-checkbox
-      label="From latest scan only"
-      (onChange)="onLatestScanChange($event)"
-      [(ngModel)]="showOnlyLatestScan"
+      label="Only buyouts"
+      (onChange)="onOnlyBuyoutsChange($event)"
+      [(ngModel)]="onlyBuyouts"
       binary="true"
     ></p-checkbox>
-    <app-search></app-search>
+
+    <div class="search" fxLayoutAlign="center center">
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"
+          ><i class="pi pi-search" style="line-height: 1.25;"></i
+        ></span>
+        <input #searchInput type="text" pInputText placeholder="Item name" />
+      </div>
+    </div>
   </div>
 
   <p-table [value]="items">
@@ -33,20 +41,12 @@
           {{ item.count }}
         </td>
         <td>
-          {{ item.bid | toGold }}
-        </td>
-        <td>
-          {{ item.bidPerUnit | toGold }}
-        </td>
-        <td>
           {{ item.buyout | toGold }}
         </td>
         <td>
-          {{ item.buyoutPerUnit | toGold }}
+          {{ item.profit | toGold }}
         </td>
-        <td>
-          {{ item.updatedAt | date: 'medium' }}
-        </td>
+        <td>{{ item.profitPct }}%</td>
       </tr>
     </ng-template>
   </p-table>

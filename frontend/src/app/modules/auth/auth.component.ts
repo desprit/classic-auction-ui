@@ -1,11 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-
-import { ApiService } from 'app/shared/services/api.service';
-import { Router } from '@angular/router';
-import { AuthService } from './auth.service';
-import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -20,21 +18,9 @@ export class AuthComponent implements OnInit, OnDestroy {
   public passwordFormControl = new FormControl('', [Validators.required]);
   private destroy$: Subject<boolean> = new Subject();
 
-  constructor(
-    private apiService: ApiService,
-    private router: Router,
-    private authService: AuthService
-  ) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    switch (this.authService.role) {
-      case 'admin':
-        this.router.navigate(['users']);
-        return;
-      case 'user':
-        this.router.navigate(['home']);
-        return;
-    }
     this.usernameFormControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
