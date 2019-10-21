@@ -19,7 +19,7 @@ export class ApiInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     let baseUrl: string;
     if (environment.production) {
-      baseUrl = 'http://127.0.0.1:3031/v1/';
+      baseUrl = 'http://35.198.147.242:3031/v1/';
     } else {
       baseUrl = 'http://127.0.0.1:3031/v1/';
     }
