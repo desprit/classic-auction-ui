@@ -12,12 +12,11 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UploadModule } from './modules/upload/upload.module';
 import { DatabaseModule } from './modules/database/database.module';
 import { SellingModule } from './modules/selling/selling.module';
-import { BuyingComponent } from './modules/buying/buying.component';
 import { AppPrimengModule } from './core/app-primeng.module';
 import { BuyingModule } from './modules/buying/buying.module';
 
 @NgModule({
-  declarations: [AppComponent, BuyingComponent],
+  declarations: [AppComponent],
   imports: [
     BuyingModule,
     SellingModule,

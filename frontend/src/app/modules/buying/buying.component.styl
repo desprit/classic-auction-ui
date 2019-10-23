@@ -1,15 +1,29 @@
 .buying
   padding 24px 24px
-  .table-header
-    margin-bottom 16px
-    .updated-at
-      font-size 1.4rem
-      font-weight 600
-      color #545454
->>>table
-  width 100%
-  img
-    width 30px
-    height 30px
-  th:first-of-type, td:first-of-type
-    text-align center
+:host
+  ::ng-deep .ui-table
+    width 100%
+    .price-wrapper
+      display flex
+      align-items center
+      .coin
+        width 7px
+        height 7px
+        border-radius 50%
+        margin 0 4px
+      .gold-coin
+        background #ffdc10
+      .silver-coin
+        background #b7b7b7
+      .bronze-coin
+        background #d67100
+    img
+      width 30px
+      height 30px
+    th:first-of-type, td:first-of-type, th:last-of-type, td:last-of-type
+      line-height 10px
+      text-align center
+    td
+      font-size 12px
+  ::ng-deep .ui-paginator
+    margin-top 8px

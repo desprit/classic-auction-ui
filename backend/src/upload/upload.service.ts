@@ -102,6 +102,7 @@ export class UploadService {
     for (const item of items) {
       let [name, count, quality, minBid, buyout] = item.split('||');
       if (name === '\\' || name === '') continue;
+      name = name.toLowerCase();
       let itemId = nameIdMap[name];
       if (!itemId) {
         name = name.split(' of ')[0];
@@ -113,8 +114,8 @@ export class UploadService {
       const fullItem = `${itemId}||${count}||${minBid}||${buyout}`;
       await tedis.zadd('ah-items', { [fullItem]: updatedAt });
       await tedis.hset('qualities', itemId, quality);
-      await tedis.sadd('all-items-ids', itemId);
-      await tedis.sadd('all-items-names', name);
+      await tedis.zadd('all-items-ids', { [itemId]: 0 });
+      await tedis.zadd('all-items-names', { [name]: 0 });
     }
   }
 

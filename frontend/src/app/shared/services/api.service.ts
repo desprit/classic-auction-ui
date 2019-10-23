@@ -10,7 +10,8 @@ import {
 } from 'app/../../../backend/src/shared/models/auth.model';
 import {
   WowAHItem,
-  SearchResponse
+  SearchResponse,
+  WowBuyingItem
 } from '../../../../../backend/src/shared/models/item.model';
 
 @Injectable({
@@ -88,7 +89,7 @@ export class ApiService {
   public getBuyingList(
     query: string,
     page: number
-  ): Observable<{ items: WowAHItem[]; totalItems: number }> {
+  ): Observable<{ items: WowBuyingItem[]; totalItems: number }> {
     return this.httpClient.get(`items/buying?page=${page}&query=${query}`).pipe(
       catchError(e => {
         console.error(e);
@@ -98,5 +99,20 @@ export class ApiService {
         return response.data;
       })
     );
+  }
+
+  public getSuggesntions(query: string): Observable<string[]> {
+    const queryLowerCase = query.toLowerCase();
+    return this.httpClient
+      .get(`items/autocomplete?query=${queryLowerCase}`)
+      .pipe(
+        catchError(e => {
+          console.error(e);
+          return of([]);
+        }),
+        map((response: any) => {
+          return response.data;
+        })
+      );
   }
 }

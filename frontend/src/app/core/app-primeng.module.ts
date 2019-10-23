@@ -9,6 +9,10 @@ import { MenuModule } from 'primeng/menu';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
+import { ChartModule } from 'primeng/chart';
+import { DropdownModule } from 'primeng/dropdown';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   providers: [],
@@ -22,7 +26,11 @@ import { PaginatorModule } from 'primeng/paginator';
     MenuModule,
     CheckboxModule,
     TableModule,
-    PaginatorModule
+    PaginatorModule,
+    ChartModule,
+    DropdownModule,
+    AutoCompleteModule,
+    DialogModule
   ],
   exports: [
     LayoutModule,
@@ -33,7 +41,11 @@ import { PaginatorModule } from 'primeng/paginator';
     MenuModule,
     CheckboxModule,
     TableModule,
-    PaginatorModule
+    PaginatorModule,
+    ChartModule,
+    DropdownModule,
+    AutoCompleteModule,
+    DialogModule
   ]
 })
 export class AppPrimengModule {}

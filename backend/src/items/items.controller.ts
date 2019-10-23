@@ -7,10 +7,10 @@ import {
   SearchResponse,
   BuyingListResponse,
 } from '../shared/models/item.model';
-import { ApiResponse } from '@/shared/models/api.model';
+import { ApiResponse } from '../shared/models/api.model';
 import { ItemsService } from './items.service';
+import { PAGE_SIZE } from '../shared/config';
 
-const PAGE_SIZE = 15;
 const QUERY_RESULTS_TTL = 60 * 60 * 10; // 10 hours
 
 @Controller('items')
@@ -25,13 +25,19 @@ export class ItemsController {
       data: Number(updatedAt) * 1000,
     };
   }
+  @Get('autocomplete')
+  async getSuggestions(@Query('query') query: string): Promise<ApiResponse> {
+    const suggestions = await this.itemsService.getSuggestions(query);
+    return {
+      success: true,
+      data: suggestions,
+    };
+  }
   @Get('buying')
   async getBuyingList(
     @Query('page') page: string,
     @Query('query') query: string,
   ): Promise<BuyingListResponse> {
-    console.log(query);
-    console.log(page);
     const offset = page ? parseInt(page) * PAGE_SIZE : 0;
     const { totalItems, items } = await this.itemsService.getBuyingList(
       query,

@@ -1,23 +1,24 @@
 import { Injectable } from '@nestjs/common';
 
 import { tedis } from '../database/index';
-import { WowAHItem, WowBuyingItem } from '@/shared/models/item.model';
-
-const PAGE_SIZE = 15;
-const QUERY_RESULTS_TTL = 60 * 60 * 10; // 10 hours
-
-function compare(a, b) {
-  if (a.profit > b.profit) {
-    return -1;
-  }
-  if (a.profit < b.profit) {
-    return 1;
-  }
-  return 0;
-}
+import { WowBuyingItem } from '@/shared/models/item.model';
+import { PAGE_SIZE, QUERY_RESULTS_TTL } from '../shared/config';
+import { filterOutliers, compare } from '../shared/utils';
 
 @Injectable()
 export class ItemsService {
+  /**
+   * Return suggestions for a given query
+   */
+  public async getSuggestions(query: string) {
+    const suggestions = await tedis.zrangebylex(
+      'all-items-names',
+      `[${query}`,
+      `[${query}\xff`,
+    );
+    return suggestions;
+  }
+
   /**
    * Save page of the buying list to Redis
    */
@@ -62,7 +63,9 @@ export class ItemsService {
       const itemId = nameIdMap[query];
       const filterValue = `${itemId}||`;
       dbItems = await tedis.zrangebyscore('ah-items', fromTo, fromTo);
-      dbItems = dbItems.filter(dbItem => dbItem.startsWith(filterValue));
+      dbItems = dbItems.filter((dbItem: string) =>
+        dbItem.startsWith(filterValue),
+      );
     } else {
       dbItems = await tedis.zrangebyscore('ah-items', fromTo, fromTo);
     }
@@ -108,11 +111,12 @@ export class ItemsService {
           }
         })
         .filter(i => !!i);
-      if (buyouts.length === 0) continue;
-      const sumBuyouts = buyouts.reduce(function(a, b) {
+      const buyoutsFiltered = filterOutliers(buyouts);
+      if (buyoutsFiltered.length === 0) continue;
+      const sumBuyouts = buyoutsFiltered.reduce(function(a, b) {
         return a + b;
       });
-      const avgBuyout = sumBuyouts / buyouts.length;
+      const avgBuyout = sumBuyouts / buyoutsFiltered.length;
       for (let item of itemsMap[k]) {
         const buyout = item.split('||')[3];
         if (!buyout || buyout === '0') continue;
@@ -120,6 +124,7 @@ export class ItemsService {
         const buyoutPerOne = Math.floor(parseInt(buyout) / count);
         const profit = Math.floor(avgBuyout - buyoutPerOne);
         const ooo = {
+          itemId,
           icon: `items/icons/${itemId}`,
           name: idNameMap[itemId],
           count,

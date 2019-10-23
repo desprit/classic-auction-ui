@@ -8,9 +8,9 @@ from logging.handlers import RotatingFileHandler
 
 from dotenv import load_dotenv
 
-env_path = Path('../shared/production.env')
+env_name = os.environ.get("NODE_ENV") or "development"
+env_path = Path(f"../shared/{env_name}.env")
 load_dotenv(dotenv_path=env_path)
-
 DEBUG = os.environ.get("DEBUG") in ["True", "1", 1, True]
 
 # Redis credentials

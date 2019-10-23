@@ -1,0 +1,45 @@
+<div class="table-header ui-g ui-fluid">
+  <div class="search ui-g-6">
+    <div class="ui-g-2">
+      <p-button class="reset" (click)="onResetClick()" label="Reset"></p-button>
+    </div>
+    <div class="ui-g-10">
+      <p-autoComplete
+        [(ngModel)]="searchValue"
+        [suggestions]="buyingService.suggestions"
+        [dropdown]="true"
+        (completeMethod)="onComplete($event)"
+        (onSelect)="onSuggestionSelected($event)"
+        (keyup.enter)="submit(buyingService.currentQuery)"
+        (onClear)="onClear()"
+        placeholder="search"
+      ></p-autoComplete>
+    </div>
+  </div>
+  <div class="filters ui-g-4">
+    <div class="ui-g-4">
+      <p-dropdown
+        [disabled]="true"
+        [options]="qualities"
+        [(ngModel)]="buyingService.selectedQuality"
+      ></p-dropdown>
+    </div>
+    <div class="ui-g-4">
+      <p-dropdown
+        [disabled]="true"
+        [options]="itemTypes"
+        [(ngModel)]="buyingService.selectedItemsType"
+      ></p-dropdown>
+    </div>
+    <div class="ui-g-4">
+      <p-dropdown
+        [disabled]="true"
+        [options]="strategies"
+        [(ngModel)]="buyingService.selectedStrategy"
+      ></p-dropdown>
+    </div>
+  </div>
+  <div class="info ui-g-2" fxLayoutAlign="center center">
+    <span class="updated-at">{{ updatedAt | date: 'short' }}</span>
+  </div>
+</div>
