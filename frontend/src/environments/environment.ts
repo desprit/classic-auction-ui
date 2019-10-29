@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  uploadUrl: 'http://localhost:3031/v1/upload'
+  uploadUrl: 'http://localhost:3031/v1/upload',
+  baseUrl: 'http://localhost:3031/v1/'
 };
 
 /*

@@ -8,7 +8,6 @@ import {
 } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
-import { DOMAIN } from '../../../../backend/src/shared/config';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +17,7 @@ export class ApiInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const apiReq = req.clone({ url: `${DOMAIN}${req.url}` });
+    const apiReq = req.clone({ url: `${environment.baseUrl}${req.url}` });
     return next.handle(apiReq);
   }
 }

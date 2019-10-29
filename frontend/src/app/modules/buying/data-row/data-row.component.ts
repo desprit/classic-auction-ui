@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { DOMAIN } from '../../../../../../backend/src/shared/config';
+import { environment } from 'app/../environments/environment';
 
 @Component({
   selector: '[appDataRow]',
@@ -12,7 +12,7 @@ export class DataRowComponent {
   @Input() isNested: boolean;
   @Input() expanded: boolean = false;
   @Output() openHistory = new EventEmitter();
-  public domain: string = DOMAIN;
+  public domain: string = environment.baseUrl;
 
   constructor() {}
   public onHistoryClick() {
