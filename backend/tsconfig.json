@@ -12,7 +12,8 @@
     "paths": {
       "@/*": ["*"]
     },
-    "incremental": true
+    "incremental": true,
+    "types": ["node"]
   },
   "exclude": ["node_modules", "dist"]
 }
