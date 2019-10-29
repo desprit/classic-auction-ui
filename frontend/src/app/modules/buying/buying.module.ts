@@ -5,10 +5,11 @@ import { TableControlsComponent } from './table-controls/table-controls.componen
 import { BuyingService } from './buying.service';
 import { BuyingComponent } from './buying.component';
 import { SharedModule } from 'app/shared/shared.module';
+import { DataRowComponent } from './data-row/data-row.component';
 
 @NgModule({
   providers: [BuyingService],
-  declarations: [TableControlsComponent, BuyingComponent],
+  declarations: [TableControlsComponent, BuyingComponent, DataRowComponent],
   imports: [SharedModule, CommonModule],
   exports: [SharedModule]
 })

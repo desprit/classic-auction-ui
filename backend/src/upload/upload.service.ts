@@ -111,8 +111,9 @@ export class UploadService {
           continue;
         }
       }
-      const fullItem = `${itemId}||${count}||${minBid}||${buyout}`;
-      await tedis.zadd('ah-items', { [fullItem]: updatedAt });
+      const fullItem = `${itemId}||${count}||${minBid}||${buyout}||${updatedAt}`;
+      await tedis.zadd('ah-items-by-score', { [fullItem]: updatedAt });
+      await tedis.zadd('ah-items-by-lex', { [fullItem]: 0 });
       await tedis.hset('qualities', itemId, quality);
       await tedis.zadd('all-items-ids', { [itemId]: 0 });
       await tedis.zadd('all-items-names', { [name]: 0 });

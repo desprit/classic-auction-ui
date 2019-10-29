@@ -1,0 +1,32 @@
+<td>
+  <img [src]="domain + item.icon" />
+</td>
+<td>
+  {{ item.name | unescape | titlecase }}
+</td>
+<td>
+  <div fxLayoutAlign="center center">
+    <span>{{ item.count }}</span>
+    <ng-container *ngIf="!isNested && item.nested.length > 0">
+      <a
+        class="expand-toggle"
+        href="#"
+        [pRowToggler]="item"
+        fxLayoutAlign="center center"
+      >
+        <i [ngClass]="expanded ? 'pi pi-caret-down' : 'pi pi-caret-right'"></i>
+      </a>
+    </ng-container>
+  </div>
+</td>
+<td [innerHTML]="item.buyout | toGold"></td>
+<td [innerHTML]="item.profit | toGold"></td>
+<td style="text-align: center;">{{ item.profitPct }}%</td>
+<td>
+  <p-button
+    *ngIf="!isNested"
+    (click)="onHistoryClick(item.itemId)"
+    icon="pi pi-info"
+    iconPos="left"
+  ></p-button>
+</td>

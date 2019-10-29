@@ -115,4 +115,16 @@ export class ApiService {
         })
       );
   }
+
+  public getItemHistory(itemId: string): Observable<any> {
+    return this.httpClient.get(`items/${itemId}/history`).pipe(
+      catchError(e => {
+        console.error(e);
+        return of({});
+      }),
+      map((response: any) => {
+        return response.data;
+      })
+    );
+  }
 }

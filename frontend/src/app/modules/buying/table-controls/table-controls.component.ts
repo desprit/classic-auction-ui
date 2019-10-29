@@ -15,7 +15,6 @@ export class TableControlsComponent implements OnInit {
   public qualities: SelectItem[];
   public strategies: SelectItem[];
   public itemTypes: SelectItem[];
-  public searchValue: string;
   public updatedAt: string;
 
   constructor(
@@ -70,7 +69,7 @@ export class TableControlsComponent implements OnInit {
     this.buyingService.currentPage = 0;
     this.resetFilters();
     this.submit('');
-    this.searchValue = '';
+    this.buyingService.searchValue = '';
     // this.searchInput.nativeElement.value = '';
   }
 

@@ -5,7 +5,7 @@
     </div>
     <div class="ui-g-10">
       <p-autoComplete
-        [(ngModel)]="searchValue"
+        [(ngModel)]="buyingService.searchValue"
         [suggestions]="buyingService.suggestions"
         [dropdown]="true"
         (completeMethod)="onComplete($event)"

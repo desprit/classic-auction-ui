@@ -69,13 +69,18 @@ export class ItemsController {
     }
     const searchFrom = onlyLatest ? latestScan.toString() : '-inf';
     const searchTo = onlyLatest ? latestScan.toString() : '+inf';
-    const items = await tedis.zrangebyscore('ah-items', searchFrom, searchTo, {
-      withscores: 'WITHSCORES',
-    });
+    const items = await tedis.zrangebyscore(
+      'ah-items-by-score',
+      searchFrom,
+      searchTo,
+      {
+        withscores: 'WITHSCORES',
+      },
+    );
     const totalItems = Object.keys(items).length;
     for (let info of Object.keys(items).slice(offset, offset + PAGE_SIZE)) {
       if (!info) break;
-      let [itemId, count, bid, buyout] = info.split('||');
+      let [itemId, count, bid, buyout, _] = info.split('||');
       const name = await tedis.hget('id-name-map', itemId);
       if (!name) {
         continue;
@@ -122,5 +127,14 @@ export class ItemsController {
     const imgName = imgPath.split('items/icons/').slice(-1)[0];
     const imgFullPath = `/data/need-more-gold/items/${imgName}.png`;
     return res.sendFile(imgFullPath);
+  }
+  @Get(':itemId/history')
+  async getItemHistory(@Param('itemId') itemId: string): Promise<any> {
+    const historyType = 'buyout';
+    const history = await this.itemsService.getItemHistory(itemId, historyType);
+    return {
+      success: true,
+      data: { history },
+    };
   }
 }

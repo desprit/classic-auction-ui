@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { tedis } from '../database/index';
 import { WowBuyingItem } from '@/shared/models/item.model';
 import { PAGE_SIZE, QUERY_RESULTS_TTL } from '../shared/config';
-import { filterOutliers, compare } from '../shared/utils';
+import { filterOutliers, sortByProperty } from '../shared/utils';
 
 @Injectable()
 export class ItemsService {
@@ -62,12 +62,12 @@ export class ItemsService {
     if (query) {
       const itemId = nameIdMap[query];
       const filterValue = `${itemId}||`;
-      dbItems = await tedis.zrangebyscore('ah-items', fromTo, fromTo);
-      dbItems = dbItems.filter((dbItem: string) =>
-        dbItem.startsWith(filterValue),
-      );
+      dbItems = await tedis.zrangebyscore('ah-items-by-score', fromTo, fromTo);
+      dbItems = dbItems.filter((dbItem: string) => {
+        return dbItem.startsWith(filterValue);
+      });
     } else {
-      dbItems = await tedis.zrangebyscore('ah-items', fromTo, fromTo);
+      dbItems = await tedis.zrangebyscore('ah-items-by-score', fromTo, fromTo);
     }
     const totalItems = Object.keys(dbItems).length;
     const itemsMap = {};
@@ -80,6 +80,23 @@ export class ItemsService {
       }
     }
     return { totalItems, itemsMap };
+  }
+
+  public groupItemsById(items) {
+    const groupedItems = items.reduce((a, b) => {
+      a[b.itemId] = a[b.itemId] || [];
+      a[b.itemId].push(b);
+      return a;
+    }, Object.create(null));
+    const itemsWithNested = [];
+    for (let itemId of Object.keys(groupedItems)) {
+      const groupItems = groupedItems[itemId];
+      sortByProperty(groupItems, 'profit', true);
+      const withHighestProfit = groupItems[0];
+      withHighestProfit.nested = groupItems.slice(1, groupItems.length);
+      itemsWithNested.push(withHighestProfit);
+    }
+    return itemsWithNested;
   }
 
   /**
@@ -96,7 +113,7 @@ export class ItemsService {
     for (let k of Object.keys(itemsMap)) {
       const itemId = k;
       const olderItems = await tedis.zrangebylex(
-        'ah-items',
+        'ah-items-by-lex',
         `[${itemId}||`,
         `[${itemId}||\xff`,
       );
@@ -111,7 +128,8 @@ export class ItemsService {
           }
         })
         .filter(i => !!i);
-      const buyoutsFiltered = filterOutliers(buyouts);
+      const buyoutsFiltered =
+        buyouts.length >= 3 ? filterOutliers(buyouts) : buyouts;
       if (buyoutsFiltered.length === 0) continue;
       const sumBuyouts = buyoutsFiltered.reduce(function(a, b) {
         return a + b;
@@ -135,8 +153,12 @@ export class ItemsService {
         items.push(ooo);
       }
     }
-    items.sort(compare);
-    return { totalItems, items: items.slice(offset, offset + PAGE_SIZE) };
+    const itemsGrouped = this.groupItemsById(items);
+    sortByProperty(itemsGrouped, 'profit', true);
+    return {
+      totalItems,
+      items: itemsGrouped.slice(offset, offset + PAGE_SIZE),
+    };
   }
 
   /**
@@ -159,5 +181,76 @@ export class ItemsService {
     );
     // await this.saveBuyingListRedis(queryId, totalItems, items);
     return { totalItems, items };
+  }
+
+  public async getBuyoutHistory(itemId: string) {
+    const items = await tedis.zrangebylex(
+      'ah-items-by-lex',
+      `[${itemId}||`,
+      `[${itemId}||\xff`,
+    );
+    const itemsByDate = {};
+    const itemObjects = [];
+    const itemsByType = [];
+    for (let item of items) {
+      const count = Number(item.split('||')[1]);
+      const buyout = Number(item.split('||')[3]);
+      const updatedAt = Number(item.split('||')[4]);
+      if (!(updatedAt in itemsByDate)) {
+        itemsByDate[updatedAt] = [];
+      }
+      if (!buyout) continue;
+      const itemObject = {
+        count,
+        buyout: Math.floor(buyout / count),
+        updatedAt,
+      };
+      itemObjects.push(itemObject);
+      itemsByDate[updatedAt].push(itemObject);
+    }
+    for (let timestamp of Object.keys(itemsByDate)) {
+      const buyouts: number[] = itemsByDate[timestamp].map(
+        itemInfo => itemInfo.buyout,
+      );
+      const buyoutsFiltered =
+        buyouts.length >= 3 ? filterOutliers(buyouts) : buyouts;
+      const counts: number[] = itemsByDate[timestamp].map(
+        itemInfo => itemInfo.count,
+      );
+      if (!buyoutsFiltered.length || !counts.length) continue;
+      const max = Math.max(...buyoutsFiltered);
+      const min = Math.min(...buyoutsFiltered);
+      const sumBuyouts = buyoutsFiltered.reduce(function(a, b) {
+        return a + b;
+      });
+      const avg = Math.floor(sumBuyouts / buyoutsFiltered.length);
+      const sumCounts = counts.reduce(function(a, b) {
+        return a + b;
+      });
+      itemsByType.push({
+        updatedAt: timestamp,
+        max,
+        min,
+        avg,
+        count: sumCounts,
+      });
+    }
+    const itemObjectsSorted = sortByProperty(itemsByType, 'updatedAt');
+    return itemObjectsSorted;
+  }
+
+  /**
+   */
+  public async getItemHistory(
+    itemId: string,
+    historyType: string,
+  ): Promise<any> {
+    switch (historyType) {
+      case 'buyout':
+        const history = this.getBuyoutHistory(itemId);
+        return history;
+      default:
+        return [];
+    }
   }
 }

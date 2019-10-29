@@ -29,12 +29,63 @@ export function filterOutliers(someArray: number[]) {
   return filteredValues;
 }
 
-export function compare(a: { [key: string]: any }, b: { [key: string]: any }) {
-  if (a.profit > b.profit) {
+export function sortByProperty(
+  array: { [key: string]: any }[],
+  propertyName: string,
+  reverse: boolean = false,
+) {
+  return array.sort(function(a, b) {
+    if (reverse) {
+      return b[propertyName] - a[propertyName];
+    }
+    return a[propertyName] - b[propertyName];
+  });
+}
+
+export function compare(
+  a: { [key: string]: any },
+  b: { [key: string]: any },
+  compareBy: string,
+) {
+  if (a[compareBy] > b[compareBy]) {
     return -1;
   }
-  if (a.profit < b.profit) {
+  if (a[compareBy] < b[compareBy]) {
     return 1;
   }
   return 0;
+}
+
+/**
+ * Transforms a string into gold-formatted value
+ * Example:
+ * {{ '974912' | toGold }}
+ * '97g 49s 12c'
+ */
+export function convertToGold(valueAsNumber: number): string {
+  let value = valueAsNumber.toString();
+  const belowZero = value[0] === '-';
+  const prefix = belowZero ? '-' : '';
+  value = belowZero ? value.slice(1, value.length) : value;
+  if (value.length <= 2) {
+    if (value === '0') {
+      return '-';
+    }
+    return `${prefix}${value}c`;
+  } else {
+    let silverValue: string;
+    const copperValue = value.slice(value.length - 2, value.length);
+    if (value.length <= 4) {
+      if (value.length == 4) {
+        silverValue = value.slice(value.length - 4, value.length - 2);
+      } else {
+        silverValue = value.slice(value.length - 3, value.length - 2);
+      }
+      return `${prefix}${silverValue}s ${copperValue}c`;
+    } else {
+      silverValue = value.slice(value.length - 4, value.length - 2);
+      const goldValue = value.slice(0, value.length - 4);
+      return `${prefix}${goldValue}g ${silverValue}s ${copperValue}c`;
+    }
+  }
 }

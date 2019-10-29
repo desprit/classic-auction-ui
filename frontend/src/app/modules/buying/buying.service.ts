@@ -17,6 +17,7 @@ export class BuyingService {
   public totalItems: number;
   public pageSize: number = PAGE_SIZE;
   public suggestions: string[];
+  public searchValue: string;
 
   constructor(private apiService: ApiService) {}
 
@@ -27,6 +28,10 @@ export class BuyingService {
         this.items = resp.items;
         this.totalItems = resp.totalItems;
       });
+  }
+
+  public getItemsHistory(itemId: string) {
+    return this.apiService.getItemHistory(itemId);
   }
 
   public autocomplete(query: string) {
