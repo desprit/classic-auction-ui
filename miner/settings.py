@@ -10,6 +10,7 @@ USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Ge
 
 RETRY_TIMES = 0
 CONCURRENT_REQUESTS = 1
+DOWNLOAD_DELAY = 0.2
 
 DOWNLOADER_MIDDLEWARES = {"middlewares.RandomUserAgentMiddleware": 350}
 
