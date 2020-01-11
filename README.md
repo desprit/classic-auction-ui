@@ -1,5 +1,14 @@
 # Installation
 
+## Info
+
+Development stack consists of several services:
+
+1. Redis as a storage
+2. Miner - a Scrapy project to scrape icons of the wow items
+3. Frontend - Angular application for the UI
+4. Backend - NestJS backend for the REST API
+
 ## Development
 
 1. Run Redis Docker service
@@ -10,10 +19,10 @@ docker run -p 6379:6379 -v /var/lib/redis/6379/need-more-gold/:/data redis:alpin
 hset users admin '{"role": "admin", "password": "$2b$10$OHBD5yu8z7aDj8Ntg8FB2.hx4VdcwLBIx3MGcEY.7UMAUTHom7BLO"}'
 ```
 
-2. Create Miner log folder
+2. Create log and icon folders for the Miner service
 
 ```sh
-# Create logs and icons folders
+# Create folders for logs and icons
 sudo mkdir -p /var/log/need-more-gold
 sudo mkdir -p /data/need-more-gold/items
 # Add write permissions to folders and nested files
@@ -27,45 +36,41 @@ find /var/log/need-more-gold -type f -exec sudo chmod 0664 {} +
 find /data/need-more-gold/items -type f -exec sudo chmod 0664 {} +
 ```
 
-## Production
-
-1. Install latest Node and NPM
-2. [Install Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
-3.
-
-### Frontend
-
-1. [Install Angular CLI](https://angular.io/cli)
+3. Scrape wow item icons
 
 ```sh
-npm install -g @angular/cli
+# Create virtual environment
+python3 -m venv venv
+# Activate virtualenv
+source venv/bin/activate
+# Install dependencies
+pip install -r requirements.txt
+# Run icons scraper (make take several hours to finish)
+scrapy crawl mmo4ever
 ```
 
-2. Start project
+4. Launch Frontend and Backend services
 
 ```sh
-ng new frontend
+TODO
 ```
 
-### Backend
+## Database structure
 
-1. [Install NestJS CLI](https://docs.nestjs.com)
-
-```sh
-npm i -g @nestjs/cli
-```
-
-2. Start project
+Miner saves items into two HSETs. One store a mapping
+between item id and item name. The other one stores a
+mapping between icon name and icon id.
 
 ```sh
-nest new backend
-```
-
-### Install and start Redis server
-
-https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-redis-on-ubuntu-18-04
-
-```sh
-# Connect to Redis
-redis-cli -a 749her0fsp74232
+# List docker containers
+docker ps
+# Connect to Redis service
+docker exec -it CONTAINER_ID redis-cli -a r6121343809cbab19
+# List all items
+hgetall name-id-map
+hgetall id-name-map
+# Get item by id
+hget name-id-map "deadly fire opal"
+# Get item by name
+hget id-name-map 30582
 ```
