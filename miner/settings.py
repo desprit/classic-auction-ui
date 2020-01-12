@@ -14,4 +14,4 @@ DOWNLOAD_DELAY = 0.2
 
 DOWNLOADER_MIDDLEWARES = {"middlewares.RandomUserAgentMiddleware": 350}
 
-ITEM_PIPELINES = {"pipelines.NeedMoreGoldPipeline": 100}
+ITEM_PIPELINES = {"pipelines.ClassicAuctionUIPipeline": 100}

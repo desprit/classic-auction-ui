@@ -11,7 +11,7 @@ from items import WowItem
 from config import log_handler, icons_path, REDIS_HOST, REDIS_PORT, REDIS_PASS
 
 
-class NeedMoreGoldPipeline:
+class ClassicAuctionUIPipeline:
     """
     Processor for scraped items.
     """

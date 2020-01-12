@@ -52,8 +52,31 @@ scrapy crawl mmo4ever
 4. Launch Frontend and Backend services
 
 ```sh
-TODO
+# Start backend
+npm run start:dev
+# Start frontend
+npm start
 ```
+
+5. Navigate to localhost:4041 from your browser
+   ![Upload Page](../assets/upload.JPG?raw=true)
+   ![Buying Page](../assets/table-empty.JPG?raw=true)
+
+6. Login with username "admin" and password "admin"
+
+7. Create a file with AH data
+
+The most tricky part is to somehow save AH items into a file and then feed it
+to the application scripts. I achieved it by modifying the original Auctionator
+addon. Modified files are: `shared/data/AuctionatorScanFull.lua` and
+`shared/data/AuctionatorScan.lua`. I maked edited sections with `-- Desprit` comment.
+Modified version of addon saves all AH items into a file called `Auctionator.lua`
+which is stored in your `WTF` folder. Example of such file is located in `shared/data/AuctionatorDataExample.lua`. On my server this file would be about 1.5MB for every AH scan.
+Install Auctionator, replace files with modified ones. Log into the game and perform a
+full scan. You'll then need to reload UI or logout to force addon saving local state into a file.
+Now than you have an Auctionator.lua file with AH items navigate to http://localhost:4041/upload and submit the file. Uploading make take up to 30 seconds, be patient.
+![Upload Page](../assets/table-data.JPG?raw=true)
+![Buying Page](../assets/graph.JPG?raw=true)
 
 ## Database structure
 
