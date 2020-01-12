@@ -1,3 +1,7 @@
+[![PyPI pyversions](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360)
+[![PyPI pyversions](https://img.shields.io/badge/typescript-%5Ev3.0.0-blue.svg)
+](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-0.html)
+
 ClassicAuctionUI helps you to track changes in prices of WorldOfWarcraft AH items. Use it to explore patterns, track low prices, etc.
 Feel free to send PRs, fork and modify.
 
