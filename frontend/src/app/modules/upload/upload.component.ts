@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
-import { FileUploader } from 'ng2-file-upload';
+import { Component } from "@angular/core";
+import { FileUploader } from "ng2-file-upload";
 
-import { AuthService } from '../auth/auth.service';
-import { Router } from '@angular/router';
-import { environment } from 'app/../environments/environment';
+import { AuthService } from "../auth/auth.service";
+import { Router } from "@angular/router";
+import { environment } from "app/../environments/environment";
 
 @Component({
-  selector: 'app-upload',
-  templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.styl']
+  selector: "app-upload",
+  templateUrl: "./upload.component.html",
+  styleUrls: ["./upload.component.styl"]
 })
 export class UploadComponent {
   public URL = environment.uploadUrl;
@@ -20,17 +20,17 @@ export class UploadComponent {
 
   constructor(private authService: AuthService, private router: Router) {
     // Only admins can upload Auctionator database
-    if (this.authService.role == 'admin') {
-      this.canDropFiles = ['Auctionator', 'BagBrother'];
+    if (this.authService.role == "admin") {
+      this.canDropFiles = ["Auctionator", "BagBrother"];
     } else {
-      this.canDropFiles = ['BagBrother'];
+      this.canDropFiles = ["BagBrother"];
     }
     this.uploader = new FileUploader({ url: this.URL, autoUpload: true });
     this.uploader.onAfterAddingFile = fileItem => {
       const fileName = fileItem.file.name;
       const allowedFiles = this.canDropFiles.filter(keyword => {
         const containsKeyword = fileName.includes(keyword);
-        const isLua = fileName.includes('.lua');
+        const isLua = fileName.includes(".lua");
         return containsKeyword && isLua;
       });
       if (allowedFiles.length === 0) {
@@ -44,10 +44,8 @@ export class UploadComponent {
     this.uploader.onCompleteItem = fileItem => {
       this.showProgress = false;
       const fileName = fileItem.file.name;
-      if (fileName.includes('Auctionator')) {
-        this.router.navigate(['buying']);
-      } else {
-        this.router.navigate(['selling']);
+      if (fileName.includes("Auctionator")) {
+        this.router.navigate(["buying"]);
       }
     };
   }

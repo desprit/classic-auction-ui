@@ -1,5 +1,4 @@
 import { ApiResponse } from './api.model';
-import { WowAHItem } from './item.model';
 
 export interface WowAHItem {
   name: string;
